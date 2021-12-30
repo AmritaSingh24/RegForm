@@ -1,0 +1,159 @@
+<div class="form">
+    <form [formGroup]="regForm" novalidate>
+        <div class="inputField">
+            <input required='' class="input" type='text' formControlName="name"> 
+            <label  placeholder='Name*'></label>
+            <!--Name Validation -->
+            <div *ngIf="regForm.controls['name'].invalid && (regForm.controls['name'].dirty || regForm.controls['name'].touched)">
+                <small class="alert" *ngIf="regForm.controls['name'].errors">
+                    Name is required.
+                </small>
+            </div>
+        </div>
+        <div class="inputField">
+            <input required='' class="input" type='email' formControlName="email">
+            <label placeholder='Email*'></label>
+            <!-- Email Validation -->
+            <div *ngIf="regForm.controls['email'].invalid && (regForm.controls['email'].dirty || regForm.controls['email'].touched)">
+                <small class="alert" *ngIf="regForm.controls['email'].errors?.['required']">
+                    Email is required.
+                </small>
+                <small class="alert" *ngIf="regForm.controls['email'].errors?.['pattern']">
+                    Email is invalid.
+                </small>
+            </div>
+        </div>
+        <div class="grid grid-1x3">
+            <div class="inputField">
+                <input required='' class="input" type='number' formControlName="age" pattern="[0-9]{1,2}">
+                <label placeholder='Age*'></label>
+                <!-- Age Validation -->
+                <div *ngIf="regForm.controls['age'].invalid && (regForm.controls['age'].dirty || regForm.controls['age'].touched)">
+                    <small class="alert" *ngIf="regForm.controls['age'].errors?.['required']">
+                        Age is required.
+                    </small>
+                    <small class="alert" *ngIf="regForm.controls['age'].errors?.['pattern']">
+                        Enter only numeric value.
+                    </small>
+                </div>
+            </div>
+            <div class="inputField">
+                <input required='' class="input" type='number' formControlName="phone">
+                <label placeholder='Mobile Number*'></label>
+                <!-- Mobile Number Validation -->
+                <div *ngIf="regForm.controls['phone'].invalid && (regForm.controls['phone'].dirty || regForm.controls['phone'].touched)">
+                    <small class="alert" *ngIf="regForm.controls['phone'].errors?.['required']">
+                        Mobile Number is required.
+                    </small>
+                    <small class="alert" *ngIf="regForm.controls['phone'].errors?.['pattern']">
+                        Mobile Number is invalid (Mobile number must be start 6, 7, 8 or 9 and 10 digits).
+                    </small>
+                </div>
+            </div>
+            <div class="inputField">
+                <select required='' class="input select" formControlName="occupation">
+                    <option value="FED">Front-End Developer</option>
+                    <option value="BED">Back-End Developer</option>
+                    <option value="FSD">Full Stack Developer</option>
+                </select>
+                <label placeholder='Occupation*'></label>
+                <!-- Occupation Validation -->
+                <div *ngIf="regForm.controls['occupation'].invalid && (regForm.controls['occupation'].dirty || regForm.controls['occupation'].touched)">
+                    <div  class="alert" *ngIf="regForm.controls['occupation'].errors?.['required']">
+                        Occupation is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FormArray -->
+        <div class="address__block" formArrayName="addressItems" *ngFor="let address of formArr.controls; let i = index" >
+            <div class="addr_block_head flex">
+                <h3>Address # {{i+1}}</h3>
+                <div class="plusMinusBtn flex">
+                    <!-- add address Button -->
+                    <button class="btn flex" (click)="addMoreAddress()" [disabled]="address.invalid"><i class="material-icons">add</i></button>
+                    <!-- Delete added address Button -->
+                    <button class="btn flex {{removeBtn}}" (click)="deleteAddress(i)" ><i class="material-icons">remove</i></button>
+                </div>
+            </div>
+            <div [formGroupName]="i">
+                <div class="grid grid-1x2">
+                    <div class="addressField">
+                        <input required='' type="text" class="input" formControlName="addressLine1">
+                        <label placeholder='Address line1*'></label>
+                        <!-- Address Line1 Validation -->
+                        <div *ngIf="formArr.controls[i].get('addressLine1')?.invalid && (formArr.controls[i].get('addressLine1')?.dirty || formArr.controls[i].get('addressLine1')?.touched)">
+                            <small class="alert" *ngIf="formArr.controls[i].get('addressLine1')?.errors?.['required']">
+                                Address Line1 is required.
+                            </small>
+                            <small class="alert" *ngIf="formArr.controls[i].get('addressLine1')?.errors?.['minLength']">
+                                Minimum 5 characters.
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="addressField">
+                        <input required='' type='text' class="input" formControlName="addressLine2">
+                        <label placeholder='Address line2*'></label>
+                        <!-- Address Line2 Validation -->
+                        <div *ngIf="formArr.controls[i].get('addressLine2')?.invalid && (formArr.controls[i].get('addressLine2')?.dirty || formArr.controls[i].get('addressLine2')?.touched)">
+                            <small class="alert" *ngIf="formArr.controls[i].get('addressLine2')?.errors?.['required']">
+                                Address line2 is required.
+                            </small>
+                        </div> 
+                    </div>
+                </div>
+                <div class="grid grid-1x3">
+                    <div class="addressField">
+                        <input required='' type='text' class="input" formControlName="city">
+                        <label placeholder='City*'></label>
+                        <!-- City validation -->
+                        <div *ngIf="formArr.controls[i].get('city')?.invalid && (formArr.controls[i].get('city')?.dirty || formArr.controls[i].get('city')?.touched)">
+                            <small class="alert" *ngIf="formArr.controls[i].get('city')?.errors?.['required']">
+                                City is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="addressField">
+                        <input required='' type='text' class="input" formControlName="state">
+                        <label placeholder='State*'></label>
+                        <!-- State validation -->
+                        <div *ngIf="formArr.controls[i].get('state')?.invalid && (formArr.controls[i].get('state')?.dirty || formArr.controls[i].get('state')?.touched)">
+                            <small class="alert" *ngIf="formArr.controls[i].get('state')?.errors?.['required']">
+                                State is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="addressField">
+                        <input required='' type='number' class="input" formControlName="pinCode">
+                        <label placeholder='Pincode*'></label>
+                        <!-- Pincode validation -->
+                        <div *ngIf="formArr.controls[i].get('pinCode')?.invalid && (formArr.controls[i].get('pinCode')?.dirty || formArr.controls[i].get('pinCode')?.touched)">
+                            <small class="alert" *ngIf="formArr.controls[i].get('pinCode')?.errors?.['required']">
+                                Pincode is required.
+                            </small>
+                            <small class="alert" *ngIf="formArr.controls[i].get('pinCode')?.errors?.['pattern']">
+                                Pincode is invalid (Pincode must be 6 digits).
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <input required='' type='checkbox' formControlName="checkBox">
+            <span>I agree terms and conditions</span>
+        </div>
+        <!-- recaptcha -->
+        <div class="recaptcha">
+            <ngx-recaptcha2
+            [siteKey]="siteKey"
+            formControlName="recaptcha"
+            >
+            </ngx-recaptcha2>
+        </div>
+        <div class="button">
+            <button class="submitBtn" [disabled]="regForm.invalid" (click)="clickSubmit()">Submit</button>
+        </div>
+    </form>
+</div>

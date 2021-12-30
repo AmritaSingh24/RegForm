@@ -1,0 +1,14 @@
+.container {
+  max-width: 950px;
+  margin: 0 auto;
+}
+.heading {
+  margin-top: 4rem;
+  padding: 0 1.5rem;
+}
+h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin: 0;
+}
